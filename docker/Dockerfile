@@ -8,14 +8,14 @@ ARG AUTOBAHN_TESTSUITE_VERSION
 ARG AUTOBAHN_TESTSUITE_VCS_REF
 
 # Metadata labeling
-LABEL org.label-schema.build-date=$BUILD_DATE \
+LABEL org.label-schema.build-date="2023-10-03" \
       org.label-schema.name="AutobahnTestsuite Toolchain Image" \
       org.label-schema.description="Toolchain image that contains the AutobahnTestsuite" \
       org.label-schema.url="http://crossbar.io" \
-      org.label-schema.vcs-ref=$AUTOBAHN_TESTSUITE_VCS_REF \
+      org.label-schema.vcs-ref="3d39035" \
       org.label-schema.vcs-url="https://github.com/crossbario/autobahn-testsuite" \
       org.label-schema.vendor="The Crossbar.io Project" \
-      org.label-schema.version=$AUTOBAHN_TESTSUITE_VERSION \
+      org.label-schema.version="0.8.2" \
       org.label-schema.schema-version="1.0"
 
 # Application home
@@ -28,7 +28,8 @@ RUN ln -s /usr/local/bin/pypy /usr/local/bin/python
 
 # install Autobahn|Testsuite
 RUN    pip install -U pip \
-    && pip install autobahntestsuite==${AUTOBAHN_TESTSUITE_VERSION}
+    && pip install typing \
+    && pip install autobahntestsuite==0.8.2
 
 # make volumes for input configuration and output reports
 VOLUME /config
@@ -38,4 +39,4 @@ WORKDIR /
 EXPOSE 9001 9001
 
 # run wstest by default in fuzzingserver mode
-CMD ["wstest", "--mode", "fuzzingserver", "--spec", "/config/fuzzingserver.json"]
+CMD ["wstest", "--mode", "fuzzingclient", "--spec", "/config/fuzzingclient.json"]
